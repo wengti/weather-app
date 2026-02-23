@@ -1,0 +1,24 @@
+import UnitMenuChild from "./UnitMenuChild";
+
+export default function UnitMenu() {
+    return (
+        <div className='absolute top-10 right-0 w-[40vw] bg-(--bg-layer-1) py-2 px-2 rounded-md flex flex-col gap-4'>
+            <button className='text-left cursor-pointer px-2'>Switch to Imperial</button>
+            <UnitMenuChild 
+                title='Temperature' 
+                measure='temperature' 
+                content={['Celcius (°C)', 'Farenheit (°F)']}
+            />
+            <UnitMenuChild 
+                title='Wind Speed' 
+                measure='windSpeed' 
+                content={['km/h', 'mph']}
+            />
+            <UnitMenuChild 
+                title='Precipitation' 
+                measure='precipitation' 
+                content={['Millimeters (mm)', 'Inch (in)']}
+            />
+        </div>
+    )
+}
