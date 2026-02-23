@@ -1,6 +1,7 @@
 import { createContext, useContext, useState } from "react"
 import Header from "./Header/Header"
 import Landing from "./Landing/Landing"
+import SearchForm from "./SearchForm/SearchForm"
 
 /* Type */
 type UnitsContextType = {
@@ -34,6 +35,7 @@ export default function App() {
         <UnitsContext value={[units, setUnits]}>
             <Header />
             <Landing />
+            <SearchForm />
         </UnitsContext>
     )
 }
