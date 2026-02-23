@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from "react"
 import Header from "./Header/Header"
+import Landing from "./Landing/Landing"
 
 /* Type */
 type UnitsContextType = {
@@ -32,6 +33,7 @@ export default function App() {
     return (
         <UnitsContext value={[units, setUnits]}>
             <Header />
+            <Landing />
         </UnitsContext>
     )
 }
