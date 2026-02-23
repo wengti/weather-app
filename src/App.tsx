@@ -1,10 +1,20 @@
-import { createContext, useContext, useState } from "react"
+import { createContext, useContext, useEffect, useState } from "react"
 import Header from "./Header/Header"
 import Landing from "./Landing/Landing"
 import SearchForm from "./SearchForm/SearchForm"
 import type { WeatherDataContextType, WeatherDataContextStateSetterType } from "./Type/WeatherDataContextType"
-import type { UnitsContextStateSetterType, UnitsContextType } from "./Type/UnitsContextType"
+import { type UnitsContextStateSetterType, type UnitsContextType } from "./Type/UnitsContextType"
 import type { LocationContextStateSetterType, LocationContextType } from "./Type/LocationContextType"
+import ApiError from "./Error/ApiError"
+import FormError from "./Error/FormError"
+import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
+
+
+/* ---------- */
+/* Error Type */
+/* ---------- */
+export type ErrorType = null | string | Error
+export type ErrorStateSetterType = React.Dispatch<React.SetStateAction<ErrorType>>
 
 /* ------------- */
 /* Units Context */
@@ -39,10 +49,23 @@ export function useLocationContext(): [LocationContextType, LocationContextState
 /* React Component */
 export default function App() {
 
-    /* State */
+    /* Error - State */
+    const [locationError, setLocationError] = useState<ErrorType>(null)
+    const [apiError, setApiError] = useState<ErrorType>(null)
+
+    /* Context - State */
+    const [location, setLocation] = useState<LocationContextType>(undefined!)
     const [units, setUnits] = useState<UnitsContextType>(defaultUnitsContext)
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
-    const [location, setLocation] = useState<LocationContextType>(undefined!)
+
+
+    /* Functions */
+
+
+    /* Effect - get current location */
+    useEffect(() => {
+        fetchInitialWeatherData(location, setLocation, units, weatherData, setWeatherData, setLocationError, setApiError)
+    }, [])
 
     /* Returned components */
     return (
@@ -50,8 +73,18 @@ export default function App() {
             <UnitsContext value={[units, setUnits]}>
                 <WeatherDataContext value={[weatherData, setWeatherData]}>
                     <Header />
-                    <Landing />
-                    <SearchForm />
+                    <main className='min-h-screen'>
+                        {
+                            apiError ?
+                                <ApiError /> :
+                                <>
+                                    <Landing />
+                                    <SearchForm />
+                                    {locationError && <FormError error={locationError} />}
+                                </>
+                        }
+
+                    </main>
                 </WeatherDataContext>
             </UnitsContext>
         </LocationContext>

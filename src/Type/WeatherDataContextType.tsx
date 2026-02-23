@@ -1,55 +1,69 @@
 
+// type IndexedNumbers = Record<string, number>
 
-type CurrentUnits = {
-  time: string
-  interval: string
-  temperature_2m: string
-  precipitation: string
-  relative_humidity_2m: string
-  wind_speed_10m: string
-  apparent_temperature: string
-  weather_code: string
-}
+// type Current = {
+//   time: string
+//   temperature_2m: number
+//   precipitation: number
+//   relative_humidity_2m: number
+//   wind_speed_10m: number
+//   apparent_temperature: number
+//   weather_code: number
+// }
+
+// type Hourly = {
+//   time: string[]
+//   weather_code: IndexedNumbers
+//   temperature_2m: IndexedNumbers
+// }
+
+// type Daily = {
+//   time: string[]
+//   weather_code: IndexedNumbers
+//   temperature_2m_max: IndexedNumbers
+//   temperature_2m_min: IndexedNumbers
+// }
+
+// export type WeatherDataContextType = {
+//   current: Current
+//   hourly: Hourly
+//   daily: Daily
+// }
+
+
+// {
+//   error?: boolean
+//   reason?: string
+// }
 
 type Current = {
-  time: string
-  interval: number
-  temperature_2m: number
-  precipitation: number
-  relative_humidity_2m: number
-  wind_speed_10m: number
-  apparent_temperature: number
-  weather_code: number
+    time: Date
+    temperature_2m: number
+    precipitation: number
+    relative_humidity_2m: number
+    wind_speed_10m: number
+    apparent_temperature: number
+    weather_code: number
 }
 
-type DailyUnits = {
-  time: string
-  weather_code: string
-  temperature_2m_max: string
-  temperature_2m_min: string
+type Hourly = {
+    time: Date[]
+    weather_code: Float32Array<ArrayBufferLike> | null
+    temperature_2m: Float32Array<ArrayBufferLike> | null
 }
 
 type Daily = {
-  time: string[]
-  weather_code: number[]
-  temperature_2m_max: number[]
-  temperature_2m_min: number[]
+    time: Date[]
+    weather_code: Float32Array<ArrayBufferLike> | null
+    temperature_2m_max: Float32Array<ArrayBufferLike> | null
+    temperature_2m_min: Float32Array<ArrayBufferLike> | null
 }
 
 export type WeatherDataContextType = {
-  latitude: number
-  longitude: number
-  generationtime_ms: number
-  utc_offset_seconds: number
-  timezone: string
-  timezone_abbreviation: string
-  elevation: number
-  current_units: CurrentUnits
-  current: Current
-  daily_units: DailyUnits
-  daily: Daily
-  error?: boolean
-  reason?: string
+    current: Current
+    hourly: Hourly
+    daily: Daily
 }
+
 
 export type WeatherDataContextStateSetterType = React.Dispatch<React.SetStateAction<WeatherDataContextType>>

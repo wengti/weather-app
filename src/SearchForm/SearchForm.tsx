@@ -1,7 +1,6 @@
 import { useActionState, useState } from "react"
-import FormError from "./FormError"
-
-export type ErrorState = Error | null | string
+import FormError from "../Error/FormError"
+import type { ErrorType } from "../App"
 
 export default function SearchForm() {
 
@@ -10,8 +9,8 @@ export default function SearchForm() {
 
 
     /* Action State */
-    const [error, searchAction, isPending] = useActionState<ErrorState, FormData>(
-        async (_prevError: ErrorState, formData: FormData): Promise<ErrorState> => {
+    const [error, searchAction, isPending] = useActionState<ErrorType, FormData>(
+        async (_prevError: ErrorType, formData: FormData): Promise<ErrorType> => {
             const locationVal = formData.get('location')
             setSearchVal('')
 

@@ -1,7 +1,7 @@
-import type { ErrorState } from "./SearchForm"
+import type { ErrorType } from "../App"
 
 type PropsType = {
-    error: ErrorState
+    error: ErrorType
 }
 
 export default function FormError({error}:PropsType){
