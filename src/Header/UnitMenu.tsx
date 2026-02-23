@@ -1,9 +1,10 @@
 import UnitMenuChild from "./UnitMenuChild";
+import UnitMenuSwitch from "./UnitMenuSwitch";
 
 export default function UnitMenu() {
     return (
         <div className='absolute top-10 right-0 w-[40vw] bg-(--bg-layer-1) py-2 px-2 rounded-md flex flex-col gap-4'>
-            <button className='text-left cursor-pointer px-2'>Switch to Imperial</button>
+            <UnitMenuSwitch />
             <UnitMenuChild 
                 title='Temperature' 
                 measure='temperature' 
