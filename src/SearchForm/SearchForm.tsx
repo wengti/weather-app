@@ -1,11 +1,8 @@
-import { useActionState, useState } from "react"
+import { useActionState } from "react"
 import FormError from "../Error/FormError"
 import { useLocationContext, useWeatherDataContext, type ErrorType } from "../App"
 
 export default function SearchForm() {
-
-    /* State */
-    const [searchVal, setSearchVal] = useState('')
 
     /* Context */
     const [location, _setLocation] = useLocationContext()
@@ -16,7 +13,6 @@ export default function SearchForm() {
     const [error, searchAction, isPending] = useActionState<ErrorType, FormData>(
         async (_prevError: ErrorType, formData: FormData): Promise<ErrorType> => {
             const locationVal = formData.get('location')
-            setSearchVal('')
 
             try {
                 const locationRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${locationVal}`)
@@ -64,8 +60,6 @@ export default function SearchForm() {
                         placeholder='Search for a place...'
                         name='location'
                         id='location'
-                        value={searchVal}
-                        onChange={(event) => { setSearchVal(event.target.value) }}
                         disabled={isDisabled}
                     />
                 </div>

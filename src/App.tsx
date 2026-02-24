@@ -9,6 +9,7 @@ import ApiError from "./Error/ApiError"
 import FormError from "./Error/FormError"
 import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
 import Loading from "./Loading/Loading"
+import Current from "./Current/Current"
 
 
 /* ---------- */
@@ -88,7 +89,13 @@ export default function App() {
                                     <Landing />
                                     <SearchForm />
                                     {locationError && <FormError error={locationError} />}
-                                    {isLoading && <Loading />}
+                                    {
+                                        isLoading ? 
+                                            <Loading /> :
+                                            <>
+                                                <Current />
+                                            </>
+                                    }
                                 </>
                         }
 
