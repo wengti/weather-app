@@ -4,7 +4,7 @@ import UnitDropdown from "./UnitDropdown";
 export default function Header(){
 
     return (
-        <header className="flex justify-between items-center">
+        <header className="flex justify-between items-center sticky top-0 bg-slate-900 pt-4 pb-2 border-b border-(--menu-border)">
             <img src='/assets/images/logo.svg' />
             <UnitDropdown />
         </header>

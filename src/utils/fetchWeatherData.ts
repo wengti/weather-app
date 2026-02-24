@@ -1,7 +1,7 @@
 import { fetchWeatherApi } from "openmeteo"
 import type { LocationContextStateSetterType, LocationContextType } from "../Type/LocationContextType"
 import type { UnitsContextType } from "../Type/UnitsContextType"
-import type { WeatherDataContextStateSetterType, WeatherDataContextType } from "../Type/WeatherDataContextType"
+import type { WeatherDataContextStateSetterType } from "../Type/WeatherDataContextType"
 import type { ErrorStateSetterType } from "../App"
 
 /* --------------------------------------------- */
@@ -22,8 +22,10 @@ type ParamsType = {
 /* ------------------ */
 /* Fetch Weather Data */
 /* ------------------ */
-async function fetchWeatherData(params:ParamsType, setWeatherData:WeatherDataContextStateSetterType):Promise<void> {
-
+async function fetchWeatherData(
+    params: ParamsType,
+    setWeatherData: WeatherDataContextStateSetterType,
+    setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> {
 
     const url = "https://api.open-meteo.com/v1/forecast";
     const responses = await fetchWeatherApi(url, params);
@@ -71,6 +73,7 @@ async function fetchWeatherData(params:ParamsType, setWeatherData:WeatherDataCon
     };
 
     setWeatherData(fetchedWeatherData)
+    setIsApiLoading(false)
 }
 
 
@@ -90,10 +93,10 @@ export async function fetchInitialWeatherData(
     location: LocationContextType,
     setLocation: LocationContextStateSetterType,
     units: UnitsContextType,
-    weatherData: WeatherDataContextType,
     setWeatherData: WeatherDataContextStateSetterType,
     setLocationError: ErrorStateSetterType,
-    setApiError: ErrorStateSetterType): Promise<void> {
+    setApiError: ErrorStateSetterType,
+    setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> {
 
     try {
         // Get the current location name, lat and long
@@ -111,25 +114,23 @@ export async function fetchInitialWeatherData(
         }
 
         // Fetch Weather data
-        if (weatherData === undefined) {
-
-            const params: ParamsType = {
-                latitude,
-                longitude,
-                daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
-                hourly: ["weather_code", "temperature_2m"],
-                current: ["temperature_2m", "precipitation", "relative_humidity_2m", "wind_speed_10m", "apparent_temperature", "weather_code"],
-                timezone: "auto" 
-                //When set to auto means always refer to the user's current location as time zone
-                //setting time zone only helps getting UTC offset
-            }
-
-            if (units['windSpeed'] === 1) params.wind_speed_unit = 'mph'
-            if (units['temperature'] === 1) params.temperature_unit = 'fahrenheit'
-            if (units['precipitation'] === 1) params.precipitation_unit = 'inch'
-
-            await fetchWeatherData(params, setWeatherData)
+        setIsApiLoading(true) //set to loading state
+        const params: ParamsType = {
+            latitude,
+            longitude,
+            daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
+            hourly: ["weather_code", "temperature_2m"],
+            current: ["temperature_2m", "precipitation", "relative_humidity_2m", "wind_speed_10m", "apparent_temperature", "weather_code"],
+            timezone: "auto"
+            //When set to auto means always refer to the user's current location as time zone
+            //setting time zone only helps getting UTC offset
         }
+
+        if (units['windSpeed'] === 1) params.wind_speed_unit = 'mph'
+        if (units['temperature'] === 1) params.temperature_unit = 'fahrenheit'
+        if (units['precipitation'] === 1) params.precipitation_unit = 'inch'
+
+        await fetchWeatherData(params, setWeatherData, setIsApiLoading)
     }
     catch (error) {
         if (error instanceof GeolocationPositionError) {

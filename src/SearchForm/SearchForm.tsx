@@ -1,12 +1,13 @@
 import { useActionState } from "react"
 import FormError from "../Error/FormError"
-import { useLocationContext, useWeatherDataContext, type ErrorType } from "../App"
+import { useIsApiLoadingContext, useLocationContext, useWeatherDataContext, type ErrorType } from "../App"
 
 export default function SearchForm() {
 
     /* Context */
     const [location, _setLocation] = useLocationContext()
     const [weatherData, _setWeatherData] = useWeatherDataContext()
+    const [isApiLoading, _setIsApiLoadingContext] = useIsApiLoadingContext()
 
 
     /* Action State */
@@ -39,7 +40,7 @@ export default function SearchForm() {
 
     /* Derived */
     let isDisabled = false
-    if (isPending || location === undefined || weatherData === undefined) isDisabled=true
+    if (isPending || location === undefined || weatherData === undefined || isApiLoading) isDisabled=true
 
     return (
         <>
@@ -64,12 +65,21 @@ export default function SearchForm() {
                     />
                 </div>
                 <button
-                    className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center'
+                    className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center items-center'
                     type='submit'
                     disabled={isDisabled}
                 >
                     {isDisabled ? 
-                        <img src='/assets/images/loading.gif' className='w-7.5'/> :
+                        <>
+                            <img src='/assets/images/loading.gif' className='w-7.5'/>
+                            {
+                                (location === undefined) ?
+                                    <span className='text-base'>Fetching location data...</span> :
+                                    (isPending || weatherData === undefined || isApiLoading) ?
+                                        <span className='text-base'>Fetching weather data...</span> :
+                                        <span></span>
+                            }
+                        </>:
                         <div>Search</div>
                     }
                 </button>

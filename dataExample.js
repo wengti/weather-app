@@ -1,4 +1,4 @@
-{
+const obj = {
     "current": {
         "time": "2026-02-24T10:45:00.000Z",
         "temperature_2m": 30.55900001525879,

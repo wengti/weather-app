@@ -63,7 +63,7 @@ export type WeatherDataContextType = {
     current: Current
     hourly: Hourly
     daily: Daily
-}
+} 
 
 
 export type WeatherDataContextStateSetterType = React.Dispatch<React.SetStateAction<WeatherDataContextType>>

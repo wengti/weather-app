@@ -10,7 +10,6 @@ export default function HourlyContent({selectedDay}:PropsType):JSX.Element{
 
     /* Context */
     const [weatherData, _setWeatherData] = useWeatherDataContext()
-    console.log(weatherData)
 
     /* Derived Element via Mapping */
     // Now

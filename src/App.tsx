@@ -8,7 +8,6 @@ import type { LocationContextStateSetterType, LocationContextType } from "./Type
 import ApiError from "./Error/ApiError"
 import FormError from "./Error/FormError"
 import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
-import Loading from "./Loading/Loading"
 import Current from "./Current/Current"
 import Daily from "./Daily/Daily"
 import Hourly from "./Hourly/Hourly"
@@ -50,6 +49,12 @@ export function useLocationContext(): [LocationContextType, LocationContextState
     return useContext(LocationContext)
 }
 
+/* API Loading Context */
+const IsApiLoadingContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>(undefined!)
+export function useIsApiLoadingContext() {
+    return useContext(IsApiLoadingContext)
+}
+
 /* --------------- */
 /* React Component */
 /* --------------- */
@@ -63,47 +68,50 @@ export default function App() {
     const [location, setLocation] = useState<LocationContextType>(undefined!)
     const [units, setUnits] = useState<UnitsContextType>(defaultUnitsContext)
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
+    const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
 
 
     /* Functions */
 
     /* Derived */
-    let isLoading = false
-    if (location === undefined || weatherData === undefined) isLoading=true
+    let isInitialLoading = false
+    if (location === undefined || weatherData === undefined) isInitialLoading = true
 
 
     /* Effect - get current location */
     useEffect(() => {
-        fetchInitialWeatherData(location, setLocation, units, weatherData, setWeatherData, setLocationError, setApiError)
-    }, [])
+        fetchInitialWeatherData(location, setLocation, units, setWeatherData, setLocationError, setApiError, setIsApiLoading)
+    }, [location, units])
 
     /* Returned components */
     return (
         <LocationContext value={[location, setLocation]}>
             <UnitsContext value={[units, setUnits]}>
                 <WeatherDataContext value={[weatherData, setWeatherData]}>
-                    <Header />
-                    <main className='min-h-(--main-min-height) flex flex-col'>
-                        {
-                            apiError ?
-                                <ApiError /> :
-                                <>
-                                    <Landing />
-                                    <SearchForm />
-                                    {locationError && <FormError error={locationError} />}
-                                    {
-                                        isLoading ? 
-                                            <Loading /> :
-                                            <>
-                                                <Current />
-                                                <Daily />
-                                                <Hourly />
-                                            </>
-                                    }
-                                </>
-                        }
+                    <IsApiLoadingContext value={[isApiLoading, setIsApiLoading]}>
+                        <Header />
+                        <main className='min-h-(--main-min-height) flex flex-col'>
+                            {
+                                apiError ?
+                                    <ApiError /> :
+                                    <>
+                                        <Landing />
+                                        <SearchForm />
+                                        {locationError && <FormError error={locationError} />}
+                                        {
+                                            isInitialLoading ?
+                                                <></> :
+                                                <>
+                                                    <Current />
+                                                    <Daily />
+                                                    <Hourly />
+                                                </>
+                                        }
+                                    </>
+                            }
 
-                    </main>
+                        </main>
+                    </IsApiLoadingContext>
                 </WeatherDataContext>
             </UnitsContext>
         </LocationContext>
