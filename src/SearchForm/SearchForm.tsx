@@ -1,11 +1,15 @@
 import { useActionState, useState } from "react"
 import FormError from "../Error/FormError"
-import type { ErrorType } from "../App"
+import { useLocationContext, useWeatherDataContext, type ErrorType } from "../App"
 
 export default function SearchForm() {
 
     /* State */
     const [searchVal, setSearchVal] = useState('')
+
+    /* Context */
+    const [location, _setLocation] = useLocationContext()
+    const [weatherData, _setWeatherData] = useWeatherDataContext()
 
 
     /* Action State */
@@ -37,6 +41,10 @@ export default function SearchForm() {
         null
     )
 
+    /* Derived */
+    let isDisabled = false
+    if (isPending || location === undefined || weatherData === undefined) isDisabled=true
+
     return (
         <>
             <form
@@ -45,8 +53,8 @@ export default function SearchForm() {
             >
                 <div className='flex gap-4 bg-(--bg-layer-1) rounded-md px-4 py-2 w-full'>
                     {
-                        isPending ?
-                            <img src='/assets/images/icon-loading.svg' /> :
+                        isDisabled ?
+                            <img src='/assets/images/loading.gif' className='w-5.6 h-5.25 my-auto'/> :
                             <img src='/assets/images/icon-search.svg' />                            
                     }
                     
@@ -58,16 +66,16 @@ export default function SearchForm() {
                         id='location'
                         value={searchVal}
                         onChange={(event) => { setSearchVal(event.target.value) }}
-                        disabled={isPending}
+                        disabled={isDisabled}
                     />
                 </div>
                 <button
                     className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center'
                     type='submit'
-                    disabled={isPending}
+                    disabled={isDisabled}
                 >
-                    {isPending ? 
-                        <img src='/assets/images/icon-loading.svg'/> :
+                    {isDisabled ? 
+                        <img src='/assets/images/loading.gif' className='w-7.5'/> :
                         <div>Search</div>
                     }
                 </button>

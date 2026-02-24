@@ -20,6 +20,8 @@
 
     --primary-text: DM-Sans, Arial;
     --landing-text: Brico, Arial;
+
+    --main-min-height: calc(100vh - 72px)
 }
 
 /* General */

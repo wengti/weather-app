@@ -8,6 +8,7 @@ import type { LocationContextStateSetterType, LocationContextType } from "./Type
 import ApiError from "./Error/ApiError"
 import FormError from "./Error/FormError"
 import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
+import Loading from "./Loading/Loading"
 
 
 /* ---------- */
@@ -46,7 +47,9 @@ export function useLocationContext(): [LocationContextType, LocationContextState
     return useContext(LocationContext)
 }
 
+/* --------------- */
 /* React Component */
+/* --------------- */
 export default function App() {
 
     /* Error - State */
@@ -61,6 +64,10 @@ export default function App() {
 
     /* Functions */
 
+    /* Derived */
+    let isLoading = false
+    if (location === undefined || weatherData === undefined) isLoading=true
+
 
     /* Effect - get current location */
     useEffect(() => {
@@ -73,7 +80,7 @@ export default function App() {
             <UnitsContext value={[units, setUnits]}>
                 <WeatherDataContext value={[weatherData, setWeatherData]}>
                     <Header />
-                    <main className='min-h-screen'>
+                    <main className='min-h-(--main-min-height) flex flex-col'>
                         {
                             apiError ?
                                 <ApiError /> :
@@ -81,6 +88,7 @@ export default function App() {
                                     <Landing />
                                     <SearchForm />
                                     {locationError && <FormError error={locationError} />}
+                                    {isLoading && <Loading />}
                                 </>
                         }
 
