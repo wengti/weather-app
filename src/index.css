@@ -14,9 +14,12 @@
 /* Color and text*/
 :root{
     --bg-layer-1: #25253e;
-    --bg-layer-2: #2f2f48;
+    --bg-layer-2: #3c3a5c; /* Hovering */
+    --bg-layer-3: #2f2f48; /* Hourly forecast child */
+    --bg-layer-4: #3c3b5c; /* Hourly Menu */
     --btn-color: #4058d2;
     --gray-used: #9b9aac;
+    --menu-border: #3a3a56;
 
     --primary-text: DM-Sans, Arial;
     --landing-text: Brico, Arial;

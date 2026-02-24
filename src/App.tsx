@@ -10,6 +10,8 @@ import FormError from "./Error/FormError"
 import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
 import Loading from "./Loading/Loading"
 import Current from "./Current/Current"
+import Daily from "./Daily/Daily"
+import Hourly from "./Hourly/Hourly"
 
 
 /* ---------- */
@@ -94,6 +96,8 @@ export default function App() {
                                             <Loading /> :
                                             <>
                                                 <Current />
+                                                <Daily />
+                                                <Hourly />
                                             </>
                                     }
                                 </>
