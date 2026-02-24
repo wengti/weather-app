@@ -32,3 +32,8 @@
     box-sizing: border-box;
 }
 
+/* Scroll */
+.scroll {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-layer-2) var(--bg-layer-1);
+}

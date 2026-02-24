@@ -119,7 +119,9 @@ export async function fetchInitialWeatherData(
                 daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
                 hourly: ["weather_code", "temperature_2m"],
                 current: ["temperature_2m", "precipitation", "relative_humidity_2m", "wind_speed_10m", "apparent_temperature", "weather_code"],
-                timezone: "auto"
+                timezone: "auto" 
+                //When set to auto means always refer to the user's current location as time zone
+                //setting time zone only helps getting UTC offset
             }
 
             if (units['windSpeed'] === 1) params.wind_speed_unit = 'mph'

@@ -13,7 +13,7 @@ export default function HourlyHeader({selectedDay, setSelectedDay}:PropsType):JS
 
     /* Returned Element */
     return (
-        <div className='flex justify-between items-center'>
+        <div className='flex justify-between items-center mb-4'>
             <span className='text-2xl font-semibold'>Hourly forecast</span>
             <button 
                 className='flex justify-between items-center gap-2 bg-(--bg-layer-4) px-4 py-2 rounded-xl w-35 relative cursor-pointer'

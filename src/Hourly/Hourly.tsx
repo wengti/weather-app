@@ -1,6 +1,7 @@
 import { useState } from "react";
 import HourlyHeader from "./HourlyHeader";
 import { useWeatherDataContext } from "../App";
+import HourlyContent from "./HourlyContent";
 
 
 export default function Hourly() {
@@ -17,8 +18,9 @@ export default function Hourly() {
 
     /* Returned Element */
     return (
-        <section className='bg-(--bg-layer-1) mb-8 p-4 rounded-xl'>
+        <section className='bg-(--bg-layer-1) mb-4 p-4 rounded-xl'>
             <HourlyHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
+            <HourlyContent selectedDay={selectedDay} />
         </section>
     )
 }
