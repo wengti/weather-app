@@ -1,6 +1,7 @@
 import { useActionState, useState } from "react"
 import FormError from "../Error/FormError"
 import { useIsApiLoadingContext, useLocationContext, useWeatherDataContext, type ErrorType } from "../App"
+import { saveLocation } from "../utils/localStorage"
 
 export default function SearchForm() {
 
@@ -53,7 +54,10 @@ export default function SearchForm() {
         const fullName = `${name}, ${country}`
         setSearchVal('')
         setSearchSuggestions([])
-        setLocation({name: fullName, timezone, latitude, longitude})
+
+        const locationState = {name: fullName, timezone, latitude, longitude}
+        saveLocation(locationState)
+        setLocation(locationState)
     }
 
 
@@ -71,7 +75,9 @@ export default function SearchForm() {
                 // Extract and set location state
                 // Once location state is changed, it triggers useEffect in App.tsx to fetch weather data
                 const { latitude, longitude, name, country, timezone } = locationResults[0]
-                setLocation({ name: `${name}, ${country}`, timezone, latitude, longitude })
+                const locationState = { name: `${name}, ${country}`, timezone, latitude, longitude }
+                saveLocation(locationState)
+                setLocation(locationState)
 
                 return null
             }
@@ -112,7 +118,7 @@ export default function SearchForm() {
                 action={searchAction}
             >
 
-                <div className='flex gap-4 bg-(--bg-layer-1) rounded-md px-4 py-2 w-full relative'>
+                <div className='flex gap-4 bg-(--bg-layer-1) rounded-md px-4 py-2 w-full relative border border-(--menu-border)'>
                     {
                         isDisabled ?
                             <img src='/assets/images/loading.gif' className='w-5.6 h-5.25 my-auto' /> :
@@ -133,7 +139,7 @@ export default function SearchForm() {
 
                     {
                         searchSuggestions.length > 0 &&
-                        <div className='absolute top-12 bg-(--bg-layer-1) w-full left-0 opacity-90 rounded-md px-4 py-2 flex flex-col gap-1'>
+                        <div className='absolute top-12 bg-(--bg-layer-1) w-full left-0 opacity-90 rounded-md px-4 py-2 flex flex-col gap-1 border border-(--menu-border)'>
                             {suggestionsChildren}
                         </div>
                     }

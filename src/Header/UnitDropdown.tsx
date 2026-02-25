@@ -14,7 +14,7 @@ export default function UnitDropdown() {
     return (
         <section className='relative'>
             <div
-                className='flex gap-2 items-center cursor-pointer bg-(--bg-layer-1) px-3 py-1 rounded-md'
+                className='flex gap-2 items-center cursor-pointer bg-(--bg-layer-1) px-3 py-1 rounded-md border border-(--menu-border)'
                 onClick={() => { toggleMenu() }}
             >
                 <img src='/assets/images/icon-units.svg' />

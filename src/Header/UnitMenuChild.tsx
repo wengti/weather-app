@@ -1,6 +1,7 @@
 import type { JSX } from "react"
 import { useUnitsContext } from "../App"
 import clsx from "clsx"
+import { saveUnits } from "../utils/localStorage"
 
 /* Type */
 type TitleType = 'Temperature' | 'Wind Speed' | 'Precipitation' | 'Time'
@@ -22,6 +23,7 @@ export default function UnitMenuChild({title, measure, content}:PropsType):JSX.E
         setUnits((prevUnits) => {
             const newUnits = {...prevUnits}
             newUnits[measure] = idx
+            saveUnits(newUnits)
             return newUnits
         })
     }

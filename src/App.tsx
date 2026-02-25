@@ -11,6 +11,7 @@ import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
 import Current from "./Current/Current"
 import Daily from "./Daily/Daily"
 import Hourly from "./Hourly/Hourly"
+import { readSavedLocation, readSavedUnits } from "./utils/localStorage"
 
 
 /* ---------- */
@@ -22,7 +23,7 @@ export type ErrorStateSetterType = React.Dispatch<React.SetStateAction<ErrorType
 /* ------------- */
 /* Units Context */
 /* ------------- */
-const defaultUnitsContext: UnitsContextType = {
+export const defaultUnitsContext: UnitsContextType = {
     temperature: 0,
     windSpeed: 0,
     precipitation: 0,
@@ -66,8 +67,8 @@ export default function App() {
     const [apiError, setApiError] = useState<ErrorType>(null)
 
     /* Context - State */
-    const [location, setLocation] = useState<LocationContextType>(undefined!)
-    const [units, setUnits] = useState<UnitsContextType>(defaultUnitsContext)
+    const [location, setLocation] = useState<LocationContextType>(()=>{return readSavedLocation()})
+    const [units, setUnits] = useState<UnitsContextType>(()=>{return readSavedUnits()})
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
 

@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useUnitsContext } from "../App"
+import { saveUnits } from "../utils/localStorage"
 
 export default function UnitMenuSwitch() {
 
@@ -13,18 +14,30 @@ export default function UnitMenuSwitch() {
     function handleUnitSwitch() {
         if (unitType === 0) {
             setUnitType(1)
-            setUnits({
-                temperature: 1,
-                windSpeed: 1,
-                precipitation: 1
+            setUnits((prevUnits) => {
+                const newUnits = {
+                    ...prevUnits,
+                    temperature: 1,
+                    windSpeed: 1,
+                    precipitation: 1
+                }
+
+                saveUnits(newUnits)
+                return newUnits
             })
         }
         else {
             setUnitType(0)
-            setUnits({
-                temperature: 0,
-                windSpeed: 0,
-                precipitation: 0
+            setUnits((prevUnits) => {
+                const newUnits = {
+                    ...prevUnits,
+                    temperature: 0,
+                    windSpeed: 0,
+                    precipitation: 0
+                }
+
+                saveUnits(newUnits)
+                return newUnits
             })
         }
     }
