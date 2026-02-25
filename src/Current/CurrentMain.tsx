@@ -1,6 +1,8 @@
 import { useIsApiLoadingContext, useLocationContext, useUnitsContext, useWeatherDataContext } from "../App"
+import BookmarkButton from "../Bookmark/BookmarkButton"
 import convertToTargetDate from "../utils/convertToTargetDate"
 import convertWeatherCode from "../utils/convertWeatherCode"
+
 
 export default function CurrentMain() {
 
@@ -29,12 +31,13 @@ export default function CurrentMain() {
     /* Temperature */
     const temperature = Math.round(current.temperature_2m)
     return (
-        <section className='bg-[url("/assets/images/bg-today-small.svg")] bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-96'>
+        <section className='bg-[url("/assets/images/bg-today-small.svg")] bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-95'>
             {
                 isApiLoading ?
                     <img src='/assets/images/loading.gif' className='w-1/2 my-auto' /> :
                     <>
-                        <span className='mt-8 font-bold text-4xl'>{location.name}</span>
+                        <BookmarkButton />
+                        <span className='font-bold text-4xl'>{location.name}</span>
                         <span className='font-semibold text-xl text-(--gray-used)'>{dateStr}</span>
                         <div className='flex items-center justify-between mt-4 mb-8 w-3/4 max-w-105'>
                             <img src={weatherCodeImgFile} className='w-1/3' />

@@ -110,7 +110,7 @@ export async function fetchInitialWeatherData(
             latitude = position.coords.latitude
             longitude = position.coords.longitude
             timezone = 'auto'
-            setLocation({ name: 'Current Location', timezone, latitude, longitude})
+            setLocation({id:null ,name: 'Current Location', timezone, latitude, longitude})
         }
         else {
             latitude = location.latitude

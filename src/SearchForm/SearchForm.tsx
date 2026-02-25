@@ -50,12 +50,12 @@ export default function SearchForm() {
     }
 
     function handleSetLocationFromSuggestion(suggestion: any): void {
-        const { name, country, timezone, latitude, longitude } = suggestion
+        const { id, name, country, timezone, latitude, longitude } = suggestion
         const fullName = `${name}, ${country}`
         setSearchVal('')
         setSearchSuggestions([])
 
-        const locationState = { name: fullName, timezone, latitude, longitude }
+        const locationState = { id, name: fullName, timezone, latitude, longitude }
         saveLocation(locationState)
         setLocation(locationState)
     }
@@ -74,8 +74,8 @@ export default function SearchForm() {
 
                 // Extract and set location state
                 // Once location state is changed, it triggers useEffect in App.tsx to fetch weather data
-                const { latitude, longitude, name, country, timezone } = locationResults[0]
-                const locationState = { name: `${name}, ${country}`, timezone, latitude, longitude }
+                const { id, latitude, longitude, name, country, timezone } = locationResults[0]
+                const locationState = { id, name: `${name}, ${country}`, timezone, latitude, longitude }
                 saveLocation(locationState)
                 setLocation(locationState)
 
