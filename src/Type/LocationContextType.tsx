@@ -7,3 +7,4 @@ export type LocationContextType = {
 }
 
 export type LocationContextStateSetterType = React.Dispatch<React.SetStateAction<LocationContextType>>
+
