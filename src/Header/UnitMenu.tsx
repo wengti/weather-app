@@ -20,6 +20,11 @@ export default function UnitMenu() {
                 measure='precipitation' 
                 content={['Millimeters (mm)', 'Inch (in)']}
             />
+            <UnitMenuChild 
+                title='Time' 
+                measure='time' 
+                content={['Current Timezone', 'Target Timezone']}
+            />
         </div>
     )
 }

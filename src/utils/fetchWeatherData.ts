@@ -33,11 +33,7 @@ async function fetchWeatherData(
     // Process first location. Add a for-loop for multiple locations or weather models
     const response = responses[0];
 
-    /* --------------------------------------------------------------------- */
-    /* Not needed as browser automatically covnert to local time zone's time */
-    /* --------------------------------------------------------------------- */
-    // const utcOffsetSeconds = response.utcOffsetSeconds();
-
+    const utcOffsetSeconds = response.utcOffsetSeconds();
     const current = response.current()!;
     const hourly = response.hourly()!;
     const daily = response.daily()!;
@@ -70,6 +66,7 @@ async function fetchWeatherData(
             temperature_2m_max: daily.variables(1)!.valuesArray(),
             temperature_2m_min: daily.variables(2)!.valuesArray(),
         },
+        utcOffsetSeconds
     };
 
     setWeatherData(fetchedWeatherData)
@@ -99,9 +96,10 @@ export async function fetchInitialWeatherData(
     setIsApiLoading: React.Dispatch<React.SetStateAction<boolean>>): Promise<void> {
 
     try {
-        // Get the current location name, lat and long
+        // Get the current location name, timezone, lat and long
         let latitude: number = null!
         let longitude: number = null!
+        let timezone: string = null!
 
         if (location === null) {
             setWeatherData(null!) // indicate that there's no valid location after attempting to fetch
@@ -111,11 +109,13 @@ export async function fetchInitialWeatherData(
             const position = await getCurrentPosition()
             latitude = position.coords.latitude
             longitude = position.coords.longitude
-            setLocation({ name: 'Current Location', timeZone: '', latitude, longitude})
+            timezone = 'auto'
+            setLocation({ name: 'Current Location', timezone, latitude, longitude})
         }
         else {
             latitude = location.latitude
             longitude = location.longitude
+            timezone = location.timezone
         }
 
         // Fetch Weather data
@@ -126,9 +126,8 @@ export async function fetchInitialWeatherData(
             daily: ["weather_code", "temperature_2m_max", "temperature_2m_min"],
             hourly: ["weather_code", "temperature_2m"],
             current: ["temperature_2m", "precipitation", "relative_humidity_2m", "wind_speed_10m", "apparent_temperature", "weather_code"],
-            timezone: "auto"
-            //When set to auto means always refer to the user's current location as time zone
-            //setting time zone only helps getting UTC offset
+            timezone
+            //setting time zone only helps getting UTC offset from GMT-0
         }
 
         if (units['windSpeed'] === 1) params.wind_speed_unit = 'mph'

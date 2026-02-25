@@ -3,8 +3,8 @@ import { useUnitsContext } from "../App"
 import clsx from "clsx"
 
 /* Type */
-type TitleType = 'Temperature' | 'Wind Speed' | 'Precipitation'
-type MeasureType = 'temperature' | 'windSpeed' | 'precipitation'
+type TitleType = 'Temperature' | 'Wind Speed' | 'Precipitation' | 'Time'
+type MeasureType = 'temperature' | 'windSpeed' | 'precipitation' | 'time'
 
 type PropsType = {
     title: TitleType

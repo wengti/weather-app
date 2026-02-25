@@ -24,7 +24,7 @@ export default function SearchForm() {
                 // Extract and set location state
                 // Once location state is changed, it triggers useEffect in App.tsx to fetch weather data
                 const { latitude, longitude, name, country, timezone } = locationResults[0]
-                setLocation({name: `${name}, ${country}`, timeZone: timezone,latitude, longitude})
+                setLocation({name: `${name}, ${country}`, timezone, latitude, longitude})
 
                 return null
             }

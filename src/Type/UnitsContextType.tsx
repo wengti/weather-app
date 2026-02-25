@@ -2,6 +2,7 @@ export type UnitsContextType = {
     temperature: number
     windSpeed: number
     precipitation: number
+    time: number
 }
 
 

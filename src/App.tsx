@@ -25,7 +25,8 @@ export type ErrorStateSetterType = React.Dispatch<React.SetStateAction<ErrorType
 const defaultUnitsContext: UnitsContextType = {
     temperature: 0,
     windSpeed: 0,
-    precipitation: 0
+    precipitation: 0,
+    time: 0
 }
 
 const UnitsContext = createContext<[UnitsContextType, UnitsContextStateSetterType]>(null!)
@@ -69,7 +70,6 @@ export default function App() {
     const [units, setUnits] = useState<UnitsContextType>(defaultUnitsContext)
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
-
 
     /* Functions */
 

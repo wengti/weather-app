@@ -63,6 +63,7 @@ export type WeatherDataContextType = {
     current: Current
     hourly: Hourly
     daily: Daily
+    utcOffsetSeconds: number
 } 
 
 
