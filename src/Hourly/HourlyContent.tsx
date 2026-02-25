@@ -12,7 +12,6 @@ export default function HourlyContent({selectedDay}:PropsType):JSX.Element{
     /* Context */
     const [weatherData, _setWeatherData] = useWeatherDataContext()
     const [units, _setUnits] = useUnitsContext()
-    console.log(convertToTargetDate(new Date('Wed Feb 25 2026 13:00:00 GMT+0800 (Malaysia Time)'), -5*60*60))
 
     /* Derived Element via Mapping */
     // Now
