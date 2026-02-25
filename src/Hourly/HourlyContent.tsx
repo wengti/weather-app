@@ -1,6 +1,7 @@
 import type { JSX } from "react"
-import { useWeatherDataContext } from "../App"
+import { useUnitsContext, useWeatherDataContext } from "../App"
 import convertWeatherCode from "../utils/convertWeatherCode"
+import convertToTargetDate from "../utils/convertToTargetDate"
 
 type PropsType = {
     selectedDay: string
@@ -10,10 +11,13 @@ export default function HourlyContent({selectedDay}:PropsType):JSX.Element{
 
     /* Context */
     const [weatherData, _setWeatherData] = useWeatherDataContext()
+    const [units, _setUnits] = useUnitsContext()
+    console.log(convertToTargetDate(new Date('Wed Feb 25 2026 13:00:00 GMT+0800 (Malaysia Time)'), -5*60*60))
 
     /* Derived Element via Mapping */
     // Now
-    const now = new Date()
+    let now = new Date()
+    if(units.time === 1) now = convertToTargetDate(now, weatherData.utcOffsetSeconds)
 
     // Destructuring
     const {hourly} = weatherData
@@ -21,8 +25,10 @@ export default function HourlyContent({selectedDay}:PropsType):JSX.Element{
 
     // Element
     const hourlyContentChildren = time.map( (timeStr, idx) => {
-        const timeObj = new Date(timeStr)
+        let timeObj = new Date(timeStr)
+        if(units.time === 1) timeObj = convertToTargetDate(timeObj, weatherData.utcOffsetSeconds)
         const timeObjDay = timeObj.toLocaleDateString('en-MY', {weekday: 'long'})
+
         if(timeObjDay === selectedDay && timeObj > now) {
 
             const weatherCodeImgFile = weather_code ? convertWeatherCode(weather_code[idx]) : '/assets/images/icon-error.svg'

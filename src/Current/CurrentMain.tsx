@@ -1,4 +1,5 @@
-import { useIsApiLoadingContext, useLocationContext, useWeatherDataContext } from "../App"
+import { useIsApiLoadingContext, useLocationContext, useUnitsContext, useWeatherDataContext } from "../App"
+import convertToTargetDate from "../utils/convertToTargetDate"
 import convertWeatherCode from "../utils/convertWeatherCode"
 
 export default function CurrentMain() {
@@ -7,12 +8,14 @@ export default function CurrentMain() {
     const [location, _setLocation] = useLocationContext()
     const [weatherData, _setWeatherData] = useWeatherDataContext()
     const [isApiLoading, _setIsApiLoading] = useIsApiLoadingContext()
+    const [units, _setUnits] = useUnitsContext()
 
     /* current object */
     const { current } = weatherData
 
     /* Date */
-    const dateObj = new Date(current.time)
+    let dateObj = new Date(current.time)
+    if(units.time === 1) dateObj = convertToTargetDate(dateObj, weatherData.utcOffsetSeconds)
     const dateStr = dateObj.toLocaleDateString('en-MY', {
         weekday: 'short',
         month: 'short',

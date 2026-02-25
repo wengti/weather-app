@@ -1,16 +1,19 @@
 import { useState } from "react";
 import HourlyHeader from "./HourlyHeader";
-import { useWeatherDataContext } from "../App";
+import { useUnitsContext, useWeatherDataContext } from "../App";
 import HourlyContent from "./HourlyContent";
+import convertToTargetDate from "../utils/convertToTargetDate";
 
 
 export default function Hourly() {
 
     /* Context */
     const [weatherData, _setWeatherData] = useWeatherDataContext()
+    const [units, _setUnits] = useUnitsContext()
 
     /* Derived */
-    const currentDateObj = new Date(weatherData.current.time)
+    let currentDateObj = new Date(weatherData.current.time)
+    if(units.time === 1) currentDateObj = convertToTargetDate(currentDateObj, weatherData.utcOffsetSeconds)
     const currentDay = currentDateObj.toLocaleDateString('en-MY', {weekday: 'long'})
 
     /* State */

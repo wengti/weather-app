@@ -1,10 +1,12 @@
-import { useWeatherDataContext } from "../App";
+import { useUnitsContext, useWeatherDataContext } from "../App";
+import convertToTargetDate from "../utils/convertToTargetDate";
 import convertWeatherCode from "../utils/convertWeatherCode";
 
 export default function Daily() {
 
     /* Context */
     const [weatherData, _setWeatherData] = useWeatherDataContext()
+    const [units, _setUnits] = useUnitsContext()
 
 
     /* Derived Element via Mapping */
@@ -15,7 +17,8 @@ export default function Daily() {
     // Mapping
     const dailyGridItems = time.map((timeStr, idx) => {
 
-        const timeObj = new Date(timeStr)
+        let timeObj = new Date(timeStr)
+        if(units.time === 1) timeObj = convertToTargetDate(timeObj, weatherData.utcOffsetSeconds)
         const day = timeObj.toLocaleDateString('en-MY', {
             weekday: 'short'
         })
