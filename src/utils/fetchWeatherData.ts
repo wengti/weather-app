@@ -102,7 +102,12 @@ export async function fetchInitialWeatherData(
         // Get the current location name, lat and long
         let latitude: number = null!
         let longitude: number = null!
-        if (location === undefined) {
+        
+        if (location === null) {
+            setWeatherData(null!) // indicate that there's no valid location after attempting to fetch
+            return
+        }
+        else if (location === undefined) {
             const position = await getCurrentPosition()
             latitude = position.coords.latitude
             longitude = position.coords.longitude
@@ -134,6 +139,9 @@ export async function fetchInitialWeatherData(
     }
     catch (error) {
         if (error instanceof GeolocationPositionError) {
+
+            setLocation(null!) // indicating that fetch has been attempted but not success
+
             switch (error.code) {
                 case error.PERMISSION_DENIED:
                     setLocationError(new Error("User denied the request for Geolocation."))

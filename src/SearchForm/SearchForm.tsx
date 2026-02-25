@@ -5,7 +5,7 @@ import { useIsApiLoadingContext, useLocationContext, useWeatherDataContext, type
 export default function SearchForm() {
 
     /* Context */
-    const [location, _setLocation] = useLocationContext()
+    const [location, setLocation] = useLocationContext()
     const [weatherData, _setWeatherData] = useWeatherDataContext()
     const [isApiLoading, _setIsApiLoadingContext] = useIsApiLoadingContext()
 
@@ -16,16 +16,16 @@ export default function SearchForm() {
             const locationVal = formData.get('location')
 
             try {
+                // Fetch location
                 const locationRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${locationVal}`)
                 const { results: locationResults } = await locationRes.json()
                 if (!locationResults) throw new Error('No relevant location can be found.')
+                
+                // Extract and set location state
+                // Once location state is changed, it triggers useEffect in App.tsx to fetch weather data
+                const { latitude, longitude, name, country } = locationResults[0]
+                setLocation({name: `${name}, ${country}`, latitude, longitude})
 
-                const { latitude, longitude } = locationResults[0]
-                const weatherRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}`)
-                const weatherData = await weatherRes.json()
-                if (weatherData.error) throw new Error(weatherData.reason)
-
-                console.log('Weather data is fetched')
                 return null
             }
             catch (error) {
@@ -56,12 +56,13 @@ export default function SearchForm() {
                     }
                     
                     <input
-                        className='text-xl placeholder:text-(--gray-used) placeholder:font-medium grow'
+                        className='text-xl placeholder:text-(--gray-used) placeholder:font-medium grow bg-red outline-0'
                         type='text'
                         placeholder='Search for a place...'
                         name='location'
                         id='location'
                         disabled={isDisabled}
+                        autoComplete='off'
                     />
                 </div>
                 <button
@@ -75,7 +76,7 @@ export default function SearchForm() {
                             {
                                 (location === undefined) ?
                                     <span className='text-base'>Fetching location data...</span> :
-                                    (isPending || weatherData === undefined || isApiLoading) ?
+                                    (weatherData === undefined || isPending || isApiLoading) ?
                                         <span className='text-base'>Fetching weather data...</span> :
                                         <span></span>
                             }

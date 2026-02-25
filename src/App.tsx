@@ -69,6 +69,7 @@ export default function App() {
     const [units, setUnits] = useState<UnitsContextType>(defaultUnitsContext)
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
+    console.log(location) 
 
 
     /* Functions */
@@ -77,6 +78,7 @@ export default function App() {
     let isInitialLoading = false
     if (location === undefined || weatherData === undefined) isInitialLoading = true
 
+    let isDataNull = location === null || weatherData === null
 
     /* Effect - get current location */
     useEffect(() => {
@@ -99,7 +101,7 @@ export default function App() {
                                         <SearchForm />
                                         {locationError && <FormError error={locationError} />}
                                         {
-                                            isInitialLoading ?
+                                            isInitialLoading || isDataNull ?
                                                 <></> :
                                                 <>
                                                     <Current />
