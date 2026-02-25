@@ -69,7 +69,6 @@ export default function App() {
     const [units, setUnits] = useState<UnitsContextType>(defaultUnitsContext)
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
-    console.log(location) 
 
 
     /* Functions */

@@ -1,6 +1,7 @@
 
 export type LocationContextType = {
     name: string
+    timeZone: string
     latitude: number
     longitude: number
 }

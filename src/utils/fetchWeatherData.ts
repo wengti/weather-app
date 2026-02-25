@@ -102,7 +102,7 @@ export async function fetchInitialWeatherData(
         // Get the current location name, lat and long
         let latitude: number = null!
         let longitude: number = null!
-        
+
         if (location === null) {
             setWeatherData(null!) // indicate that there's no valid location after attempting to fetch
             return
@@ -111,7 +111,7 @@ export async function fetchInitialWeatherData(
             const position = await getCurrentPosition()
             latitude = position.coords.latitude
             longitude = position.coords.longitude
-            setLocation({ name: 'Current Location', latitude, longitude, })
+            setLocation({ name: 'Current Location', timeZone: '', latitude, longitude})
         }
         else {
             latitude = location.latitude
