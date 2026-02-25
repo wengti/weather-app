@@ -2,6 +2,7 @@ import type { JSX } from "react"
 import { useUnitsContext, useWeatherDataContext } from "../App"
 import convertWeatherCode from "../utils/convertWeatherCode"
 import convertToTargetDate from "../utils/convertToTargetDate"
+import { calculateDays } from "../utils/calculateDays"
 
 type PropsType = {
     selectedDay: string
@@ -27,9 +28,11 @@ export default function HourlyContent({selectedDay}:PropsType):JSX.Element{
         let timeObj = new Date(timeStr)
         if(units.time === 1) timeObj = convertToTargetDate(timeObj, weatherData.utcOffsetSeconds)
         const timeObjDay = timeObj.toLocaleDateString('en-MY', {weekday: 'long'})
-
-        if(timeObjDay === selectedDay && timeObj > now) {
-
+        
+        // calculateDays are needed because when timezone is set in fetching weather data
+        // it fetches the data starting from the 12am of the same day of that timezone to the next 7 days
+        // which can result in the current day (i.e. tuesday) to have part of the data of the next weekday (i.e. next tuesday)
+        if(timeObjDay === selectedDay && timeObj > now && (calculateDays(now, timeObj)<=6) ){
             const weatherCodeImgFile = weather_code ? convertWeatherCode(weather_code[idx]) : '/assets/images/icon-error.svg'
             const hourStr = timeObj.toLocaleTimeString('en-MY', {hour: 'numeric', hour12: true}).toUpperCase()
             const temperatureStr = temperature_2m ? `${Math.round(temperature_2m[idx])}°` : 'null'

@@ -49,13 +49,13 @@ export default function SearchForm() {
         }
     }
 
-    function handleSetLocationFromSuggestion(suggestion:any):void{
-        const {name, country, timezone, latitude, longitude} = suggestion
+    function handleSetLocationFromSuggestion(suggestion: any): void {
+        const { name, country, timezone, latitude, longitude } = suggestion
         const fullName = `${name}, ${country}`
         setSearchVal('')
         setSearchSuggestions([])
 
-        const locationState = {name: fullName, timezone, latitude, longitude}
+        const locationState = { name: fullName, timezone, latitude, longitude }
         saveLocation(locationState)
         setLocation(locationState)
     }
@@ -99,10 +99,10 @@ export default function SearchForm() {
     const suggestionsChildren = searchSuggestions.map((suggestion) => {
         const { id, name, country } = suggestion
         return (
-            <div 
+            <div
                 key={id}
                 className='px-1 py-2 hover:bg-(--bg-layer-2) rounded-md cursor-pointer'
-                onClick={()=>{handleSetLocationFromSuggestion(suggestion)}}
+                onClick={() => { handleSetLocationFromSuggestion(suggestion) }}
             >
                 {`${name}, ${country}`}
             </div>
@@ -143,8 +143,6 @@ export default function SearchForm() {
                             {suggestionsChildren}
                         </div>
                     }
-
-
                 </div>
 
                 <button

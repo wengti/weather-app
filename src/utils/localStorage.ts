@@ -45,7 +45,3 @@ export function saveUnits(unitsState:UnitsContextType):void{
 export function readSavedUnits():any{
     return readFromLocalStorage(unitsKey, defaultUnitsContext) //if the key cannot be found, set to default units
 }
-
-export function deleteSavedUnits():void{
-    deleteFromLocalStorage(unitsKey)
-}
