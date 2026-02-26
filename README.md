@@ -1,73 +1,143 @@
-# React + TypeScript + Vite
+# Weather App
+A weather app powered by [Open-Meteo](https://open-meteo.com/) and built using ***React***, ***Typescript*** and ***TailwindCSS***
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Features
+* Current, Daily (Next 7 days), Hourly (Next 7 days)'s weather prediction
+* Change of units 
+* Display prediction's time at current or target's timezone
+* Locations are bookmarkable
+* Automatic geoencoding of user's current location to get the corresponding weather prediction
 
-Currently, two official plugins are available:
+## Get Started
+Visit the implementation here: https://weather-app-2ihi.onrender.com
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<div align='center'>
+    <img src='/demo/desktop-dark.jpg' width='71%'/>
+    <img src='/demo/mobile-dark.jpg' width='18%' />
+</div>
 
-## React Compiler
+<div align='center'>
+    <img src='/demo/desktop-light.jpg' width='71%'/>
+    <img src='/demo/mobile-light.jpg' width='18%' />
+</div>
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Key takeaways
+1. How to use `useActionState()` in ***Typescript***
+    
+    * `ErrorType` is a union of 3 type so that it can cover all the possible returned value
+    * `instanceof` is useful for type narrowing of the caught error.
+    
+    ```typescript
 
-## Expanding the ESLint configuration
+    type ErrorType = null | string | Error
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+    const [submitError, searchAction, isPending] = useActionState<ErrorType, FormData>(
+        async (_prevSubmitError: ErrorType, formData: FormData): Promise<ErrorType> => {
+            const locationVal = formData.get('location')
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+            try {
+                setSearchVal('')
+                setSearchSuggestions([])
+                // Fetch location
+                const locationResults = await fetchLocationData(locationVal)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+                // Extract and set location state
+                // Once location state is changed, it triggers useEffect in App.tsx to fetch weather data
+                const { id, latitude, longitude, name, country, timezone } = locationResults[0]
+                const locationState = { id, name: `${name}, ${country}`, timezone, latitude, longitude }
+                saveLocation(locationState)
+                setLocation(locationState)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+                return null
+            }
+            catch (error) {
+                if (error instanceof Error) {
+                    return error
+                }
+                return 'An unknown error is caught.'
+            }
+        },
+        null
+    )
+    ``` 
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+2. Wrapper to make a function awaitable
+    *  For context, this is needed in this project as the HTML's geoencoding API uses promises instead of ES6's await/async syntax. Refer to this: https://www.w3schools.com/html/html5_geolocation.asp.
+    * For a snippet:
+    ```javascript
+    const x = document.getElementById("demo");
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+    function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+    }
+
+    function success(position) {
+    x.innerHTML = "Latitude: " + position.coords.latitude +
+    "<br>Longitude: " + position.coords.longitude;
+    }
+
+    function error() {
+    alert("Sorry, no position available.");
+    }
+    ```
+
+    * Therefore, a Promise wrapper is needed as following, which makes it awaitable in an async function.
+    * If error occurs here, `reject` will also pass the error to the `catch` block.
+
+    ```typescript
+    export function getCurrentPosition(): Promise<GeolocationPosition> {
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, reject)
+        })
+    }
+    ```
+
+3. How is a `Date` Obj resolves in browser and in node.js
+    * In Browser, `Date` always resolve to this following format: Thu Feb 26 2026 18:45:00 GMT+0800 (Malaysia Time)
+        - which indicates that it always convert any timestamp to the time at the current timezone of the device. (i.e. GMT+8 in Malaysia)
+    * In Node.js, `Date` resolve to this following format: 2026-02-26T10:54:57.333Z
+        - which indicates that it always convert any timestamp to the time at the GMT+0.
+
+4. Use of z-index
+    * For z-index to take effect, it must be applied to elements that are sibling to each other.
+
+5. Tailwindcss may sometimes not recognize certain syntax in css files. 
+    * Therefore, refer to this solution: https://stackoverflow.com/questions/79513015/tailwind-css-v4-unknown-at-rule-plugin-custom-variant-theme-utility-v
+    * Find the json files under the tailwind intellisense plugin's settings.
+
+6. Darkmode setup with tailwindCSS
+    * Refer to: https://tailwindcss.com/docs/dark-mode
+    * For a snippet:
+        ```css
+        @import "tailwindcss";
+        @custom-variant dark (&:where(.dark, .dark *));
+        ```
+
+        ```html
+        <html class="dark">
+            <body>
+                <div class="bg-white dark:bg-black">
+                <!-- ... -->
+                </div>
+            </body>
+        </html>
+        ```
+    * Setting up this way, by toggle on/off the `'dark'` class at html, the div will show either `bg-white` or `dark:bg-black`
+    * For further easing the adjustment, this can be done in css (assuming that all the colors scheme are set using CSS variables):
+        ```css
+        .dark{
+            --text-main: white;
+            --bg-main: var(--color-slate-900);
+            --bg-layer-1: #25253e;
+            --bg-layer-2: #3c3a5c; /* Hovering */
+            --bg-layer-3: #2f2f48; /* Hourly forecast child */
+            --bg-layer-4: #3c3b5c; /* Hourly Menu */
+            --btn-color: #4058d2;
+        }
+        ```
+7. To make an element scrollable, it must have a maximum height set to it.
