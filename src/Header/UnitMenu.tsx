@@ -3,7 +3,7 @@ import UnitMenuSwitch from "./UnitMenuSwitch";
 
 export default function UnitMenu() {
     return (
-        <div className='absolute top-10 right-0 w-[40vw] bg-(--bg-layer-1) py-2 px-2 rounded-md flex flex-col gap-4 border border-(--menu-border) shadow-2xl lg:max-w-100'>
+        <div className='absolute top-10 right-0 w-[40vw] min-w-48 bg-(--bg-layer-1) py-2 px-2 rounded-md flex flex-col gap-4 border border-(--menu-border) shadow-2xl lg:max-w-100'>
             <UnitMenuSwitch />
             <UnitMenuChild 
                 title='Temperature' 
