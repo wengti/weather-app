@@ -11,7 +11,7 @@ import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
 import Current from "./Current/Current"
 import Daily from "./Daily/Daily"
 import Hourly from "./Hourly/Hourly"
-import { readSavedBookmarks, readSavedLocation, readSavedUnits } from "./utils/localStorage"
+import { readSavedBookmarks, readSavedIsDarkMode, readSavedLocation, readSavedUnits } from "./utils/localStorage"
 import Bookmark from "./Bookmark/Bookmark"
 
 
@@ -90,7 +90,7 @@ export default function App() {
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
     const [bookmarks, setBookmarks] = useState<LocationContextType[]>(() => { return readSavedBookmarks() })
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(true)
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(()=>{return readSavedIsDarkMode()})
 
     /* State */
 

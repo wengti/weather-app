@@ -6,9 +6,10 @@ import type { UnitsContextType } from "../Type/UnitsContextType"
 const locationKey = 'location'
 const unitsKey = 'units'
 const bookmarksKey = 'bookmarks'
+const isDarkModeKey = 'isDarkMode'
 
-type KeyType = 'location' | 'units' | 'bookmarks'
-type ValType = LocationContextType | UnitsContextType | LocationContextType[]
+type KeyType = 'location' | 'units' | 'bookmarks' | 'isDarkMode'
+type ValType = LocationContextType | UnitsContextType | LocationContextType[] | boolean
 
 function saveToLocalStorage(key:KeyType, value: ValType): void {
     localStorage.setItem(key, JSON.stringify(value))
@@ -55,4 +56,12 @@ export function readSavedBookmarks():any{
     return readFromLocalStorage(bookmarksKey, [])
 }
 
+/* Dark Mode */
+export function saveIsDarkMode(isDarkModeState:boolean):void{
+    saveToLocalStorage(isDarkModeKey, isDarkModeState)
+}
+
+export function readSavedIsDarkMode():any{
+    return readFromLocalStorage(isDarkModeKey, true)
+}
 
