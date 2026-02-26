@@ -21,7 +21,7 @@ export default function Hourly() {
 
     /* Returned Element */
     return (
-        <section className='bg-(--bg-layer-1) mb-4 p-4 rounded-xl'>
+        <section className='bg-(--bg-layer-1) mb-4 p-4 rounded-xl lg:mb-0 lg:h-(--content-height) lg:min-w-90'>
             <HourlyHeader selectedDay={selectedDay} setSelectedDay={setSelectedDay}/>
             <HourlyContent selectedDay={selectedDay} />
         </section>

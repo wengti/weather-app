@@ -41,7 +41,7 @@ export default function Bookmark() {
     })
 
     return (
-        <section className='flex flex-wrap mt-4 gap-2 justify-center'>
+        <section className='flex flex-wrap mt-4 gap-2 justify-center lg:mx-auto lg:w-5/6 lg:max-w-225'>
             <div className={bookmarkChildrenClsName} onClick={() => { handleSetToCurrentLocation() }}>
                 Current Location
             </div>

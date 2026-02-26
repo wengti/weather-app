@@ -20,7 +20,7 @@ export default function HourlyHeader({ selectedDay, setSelectedDay }: PropsType)
     return (
         <div className='flex justify-between items-center mb-4'>
             <div className='flex gap-2'>
-                <span className='text-2xl font-semibold'>Hourly forecast</span>
+                <span className='text-2xl font-semibold lg:text-xl'>Hourly forecast</span>
                 {
                     isApiLoading &&
                     <img src='/assets/images/loading.gif' className='w-8' />

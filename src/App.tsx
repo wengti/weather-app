@@ -90,16 +90,17 @@ export default function App() {
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
     const [bookmarks, setBookmarks] = useState<LocationContextType[]>(() => { return readSavedBookmarks() })
-    const [isDarkMode, setIsDarkMode] = useState<boolean>(()=>{return readSavedIsDarkMode()})
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(() => { return readSavedIsDarkMode() })
 
     /* State */
 
     /* Functions */
 
-    /* Derived */
-    let displayClsName = 'w-full px-4 pb-4 min-w-112.5 bg-(--bg-main) text-(--text-main) font-(family-name:--primary-text) '
-    if (isDarkMode) displayClsName += 'dark'
+    /* Class Name */
+    let displayClsName = 'w-full px-4 pb-4 min-w-112.5 bg-(--bg-main) text-(--text-main) font-(family-name:--primary-text)'
+    if (isDarkMode) displayClsName += ' dark'
 
+    /* Derived */
     let isInitialLoading = false
     if (location === undefined || weatherData === undefined) isInitialLoading = true
 
@@ -119,8 +120,9 @@ export default function App() {
                         <BookmarksContext value={[bookmarks, setBookmarks]}>
                             <IsDarkModeContext value={[isDarkMode, setIsDarkMode]}>
                                 <div className={displayClsName}>
+
                                     <Header />
-                                    <main className='min-h-(--main-min-height) flex flex-col'>
+                                    <main className='min-h-(--main-min-height) flex flex-col max-w-225 mx-auto lg:max-w-full'>
                                         {
                                             apiError ?
                                                 <ApiError /> :
@@ -132,16 +134,19 @@ export default function App() {
                                                     {
                                                         isInitialLoading || isDataNull ?
                                                             <></> :
-                                                            <>
-                                                                <Current />
-                                                                <Daily />
+                                                            <div className='lg:flex lg:gap-4 lg:mt-8 lg:px-4 lg:mb-4 lg:w-full lg:justify-center'>
+                                                                <div className='lg:flex lg:flex-col lg:justify-between lg:h-(--content-height) lg:shrink'>
+                                                                    <Current />
+                                                                    <Daily />
+                                                                </div>
                                                                 <Hourly />
-                                                            </>
+                                                            </div>
                                                     }
                                                 </>
                                         }
                                     </main>
                                 </div>
+
                             </IsDarkModeContext>
                         </BookmarksContext>
                     </IsApiLoadingContext>

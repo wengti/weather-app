@@ -115,11 +115,11 @@ export default function SearchForm() {
     return (
         <>
             <form
-                className='flex flex-col items-center gap-4 relative z-1'
+                className='flex flex-col items-center gap-4 relative z-1 lg:flex-row lg:mx-auto lg:w-5/6 lg:max-w-225 '
                 action={searchAction}
             >
 
-                <div className='flex gap-4 items-center bg-(--bg-layer-1) rounded-md px-4 py-2 w-full relative border border-(--menu-border)'>
+                <div className='flex gap-4 items-center bg-(--bg-layer-1) rounded-md px-4 py-2 w-full relative border border-(--menu-border) lg:grow'>
                     {
                         isDisabled ?
                             <img src='/assets/images/loading.gif' className='w-5.6 h-5.25 my-auto' /> :
@@ -147,7 +147,7 @@ export default function SearchForm() {
                 </div>
 
                 <button
-                    className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center items-center disabled:cursor-not-allowed border border-(--menu-border)'
+                    className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center items-center disabled:cursor-not-allowed border border-(--menu-border) lg:max-w-70 lg:text-lg'
                     type='submit'
                     disabled={isDisabled}
                 >

@@ -34,10 +34,11 @@ export default function CurrentMain() {
 
     /* Background Image */
     const bgSmall = isDarkMode ? "bg-[url('/assets/images/bg-today-small.svg')]" : "bg-[url('/assets/images/bg-today-small-light.svg')]"
+    const bgBig = isDarkMode ? "lg:bg-[url('/assets/images/bg-today-large.svg')]" : "lg:bg-[url('/assets/images/bg-today-large-light.svg')]"
 
     /* Returned Element */
     return (
-        <section className={`${bgSmall} bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-95`}>
+        <section className={`${bgSmall} ${bgBig} bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-90 lg:col-span-4`}>
             {
                 isApiLoading ?
                     <img src='/assets/images/loading.gif' className='w-1/2 max-w-40 my-auto' /> :

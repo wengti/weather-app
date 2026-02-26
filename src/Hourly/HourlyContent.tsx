@@ -54,7 +54,7 @@ export default function HourlyContent({selectedDay}:PropsType):JSX.Element{
 
     /* Returned Element */
     return (
-        <div className='flex flex-col gap-4 max-h-120 overflow-auto scroll'>
+        <div className='flex flex-col gap-4 max-h-120 overflow-auto scroll lg:max-h-(--hourly-scroll-height)'>
             {hourlyContentChildren}
         </div>
     )

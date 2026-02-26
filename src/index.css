@@ -28,12 +28,11 @@
     --primary-text: DM-Sans, Arial;
     --landing-text: Brico, Arial;
 
-    --main-min-height: calc(100vh - 64.8px - 16px)
+    --main-min-height: calc(100vh - 64.8px - 16px);
+    --content-height: 875px;
+    --hourly-scroll-height: calc(var(--content-height) - 42px - 16px - 32px)
 }
 
-a {
-    color: #808080;
-}
 
 .dark{
     --text-main: white;
