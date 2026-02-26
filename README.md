@@ -140,4 +140,5 @@ Visit the implementation here: https://weather-app-2ihi.onrender.com
             --btn-color: #4058d2;
         }
         ```
+        
 7. To make an element scrollable, it must have a maximum height set to it.
