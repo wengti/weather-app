@@ -44,6 +44,8 @@ export default function Daily() {
     return (
         <section className='mb-8'>
             <span className='text-2xl font-semibold'>Daily forecast</span>
+            <span className='text-xs text-(--gray-used) leading-none'><br/>Hint: Daily Forecasts use 12:00 AM at the selected location. <br/> Example: Thursday in Melbourne (GMT+11) may display as Wednesday in Malaysia (GMT+8) if viewed in Malaysia's Timezone. <br/>Recommended: Set to Target's timezone when viewing this section.</span>
+            
             <div className='grid grid-cols-3 gap-4 mt-4'>
                 {dailyGridItems}
             </div>

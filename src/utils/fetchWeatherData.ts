@@ -118,6 +118,7 @@ export async function fetchInitialWeatherData(
             timezone = location.timezone
         }
 
+
         // Fetch Weather data
         setIsApiLoading(true) //set to loading state
         const params: ParamsType = {

@@ -11,7 +11,7 @@ export default function CurrentMain() {
     const [weatherData, _setWeatherData] = useWeatherDataContext()
     const [isApiLoading, _setIsApiLoading] = useIsApiLoadingContext()
     const [units, _setUnits] = useUnitsContext()
-
+    console.log(weatherData)
     /* current object */
     const { current } = weatherData
 
