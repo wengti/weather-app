@@ -68,6 +68,12 @@ export function useBookmarksContext() {
     return useContext(BookmarksContext)
 }
 
+/* Dark Mode Context */
+const IsDarkModeContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>(null!)
+export function useIsDarkModeContext() {
+    return useContext(IsDarkModeContext)
+}
+
 
 /* --------------- */
 /* React Component */
@@ -83,11 +89,17 @@ export default function App() {
     const [units, setUnits] = useState<UnitsContextType>(() => { return readSavedUnits() })
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
-    const [bookmarks, setBookmarks] = useState<LocationContextType[]>(()=> {return readSavedBookmarks()})
+    const [bookmarks, setBookmarks] = useState<LocationContextType[]>(() => { return readSavedBookmarks() })
+    const [isDarkMode, setIsDarkMode] = useState<boolean>(true)
+
+    /* State */
 
     /* Functions */
 
     /* Derived */
+    let displayClsName = 'w-full px-4 pb-4 min-w-112.5 bg-(--bg-main) text-(--text-main) font-(family-name:--primary-text) '
+    if (isDarkMode) displayClsName += 'dark'
+
     let isInitialLoading = false
     if (location === undefined || weatherData === undefined) isInitialLoading = true
 
@@ -105,30 +117,32 @@ export default function App() {
                 <WeatherDataContext value={[weatherData, setWeatherData]}>
                     <IsApiLoadingContext value={[isApiLoading, setIsApiLoading]}>
                         <BookmarksContext value={[bookmarks, setBookmarks]}>
-
-                            <Header />
-                            <main className='min-h-(--main-min-height) flex flex-col'>
-                                {
-                                    apiError ?
-                                        <ApiError /> :
-                                        <>
-                                            <Landing />
-                                            <SearchForm />
-                                            <Bookmark />
-                                            {locationError && <FormError error={locationError} />}
-                                            {
-                                                isInitialLoading || isDataNull ?
-                                                    <></> :
-                                                    <>
-                                                        <Current />
-                                                        <Daily />
-                                                        <Hourly />
-                                                    </>
-                                            }
-                                        </>
-                                }
-                            </main>
-
+                            <IsDarkModeContext value={[isDarkMode, setIsDarkMode]}>
+                                <div className={displayClsName}>
+                                    <Header />
+                                    <main className='min-h-(--main-min-height) flex flex-col'>
+                                        {
+                                            apiError ?
+                                                <ApiError /> :
+                                                <>
+                                                    <Landing />
+                                                    <SearchForm />
+                                                    <Bookmark />
+                                                    {locationError && <FormError error={locationError} />}
+                                                    {
+                                                        isInitialLoading || isDataNull ?
+                                                            <></> :
+                                                            <>
+                                                                <Current />
+                                                                <Daily />
+                                                                <Hourly />
+                                                            </>
+                                                    }
+                                                </>
+                                        }
+                                    </main>
+                                </div>
+                            </IsDarkModeContext>
                         </BookmarksContext>
                     </IsApiLoadingContext>
                 </WeatherDataContext>

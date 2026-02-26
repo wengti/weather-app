@@ -1,6 +1,7 @@
 import { useState, type JSX } from "react"
 import HourlyMenu from "./HourlyMenu"
 import { useIsApiLoadingContext } from "../App"
+import { FaChevronDown } from "react-icons/fa";
 
 export type PropsType = {
     selectedDay: string
@@ -26,11 +27,11 @@ export default function HourlyHeader({ selectedDay, setSelectedDay }: PropsType)
                 }
             </div>
             <button
-                className='flex justify-between items-center gap-2 bg-(--bg-layer-4) px-4 py-2 rounded-xl w-35 relative cursor-pointer'
+                className='flex justify-between items-center gap-2 bg-(--bg-layer-4) px-4 py-2 rounded-xl w-35 relative cursor-pointer border border-(--menu-border)'
                 onClick={() => setIsHourlyMenuOpen((prevIsHourlyMenuOpen: boolean): boolean => !prevIsHourlyMenuOpen)}
             >
                 <span>{selectedDay}</span>
-                <img src='/assets/images/icon-dropdown.svg' />
+                <FaChevronDown className='text-(--text-main) text-sm'/>
                 {
                     isHourlyMenuOpen &&
                     <HourlyMenu selectedDay={selectedDay} setSelectedDay={setSelectedDay} />

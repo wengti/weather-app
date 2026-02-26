@@ -2,6 +2,7 @@ import { useActionState, useState } from "react"
 import FormError from "../Error/FormError"
 import { useIsApiLoadingContext, useLocationContext, useWeatherDataContext, type ErrorType } from "../App"
 import { saveLocation } from "../utils/localStorage"
+import { IoSearchOutline } from "react-icons/io5";
 
 export default function SearchForm() {
 
@@ -118,11 +119,11 @@ export default function SearchForm() {
                 action={searchAction}
             >
 
-                <div className='flex gap-4 bg-(--bg-layer-1) rounded-md px-4 py-2 w-full relative border border-(--menu-border)'>
+                <div className='flex gap-4 items-center bg-(--bg-layer-1) rounded-md px-4 py-2 w-full relative border border-(--menu-border)'>
                     {
                         isDisabled ?
                             <img src='/assets/images/loading.gif' className='w-5.6 h-5.25 my-auto' /> :
-                            <img src='/assets/images/icon-search.svg' />
+                            <IoSearchOutline className='text-(--text-main) text-xl'/>
                     }
 
                     <input
@@ -146,7 +147,7 @@ export default function SearchForm() {
                 </div>
 
                 <button
-                    className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center items-center disabled:cursor-not-allowed'
+                    className='bg-(--btn-color) w-full px-4 py-2 h-11.25 font-medium rounded-md text-xl cursor-pointer flex justify-center items-center disabled:cursor-not-allowed border border-(--menu-border)'
                     type='submit'
                     disabled={isDisabled}
                 >

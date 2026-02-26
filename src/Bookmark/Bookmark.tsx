@@ -10,7 +10,7 @@ export default function Bookmark() {
     const [bookmarks, _setBookmarks] = useBookmarksContext()
 
     /* Class name */
-    const bookmarkChildrenClsName = 'bg-(--bg-layer-3) px-4 py-2 rounded-md cursor-pointer hover:bg-(--bg-layer-2)'
+    const bookmarkChildrenClsName = 'bg-(--bg-layer-3) px-4 py-2 rounded-md cursor-pointer hover:bg-(--bg-layer-2) font-semibold'
 
     /* Function */
     async function handleSetToCurrentLocation() {

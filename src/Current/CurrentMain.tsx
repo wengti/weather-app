@@ -1,4 +1,4 @@
-import { useIsApiLoadingContext, useLocationContext, useUnitsContext, useWeatherDataContext } from "../App"
+import { useIsApiLoadingContext, useIsDarkModeContext, useLocationContext, useUnitsContext, useWeatherDataContext } from "../App"
 import BookmarkButton from "../Bookmark/BookmarkButton"
 import convertToTargetDate from "../utils/convertToTargetDate"
 import convertWeatherCode from "../utils/convertWeatherCode"
@@ -11,7 +11,8 @@ export default function CurrentMain() {
     const [weatherData, _setWeatherData] = useWeatherDataContext()
     const [isApiLoading, _setIsApiLoading] = useIsApiLoadingContext()
     const [units, _setUnits] = useUnitsContext()
-    
+    const [isDarkMode, _setIsDarkMode] = useIsDarkModeContext()
+
     /* current object */
     const { current } = weatherData
 
@@ -30,19 +31,24 @@ export default function CurrentMain() {
 
     /* Temperature */
     const temperature = Math.round(current.temperature_2m)
+
+    /* Background Image */
+    const bgSmall = isDarkMode ? "bg-[url('/assets/images/bg-today-small.svg')]" : "bg-[url('/assets/images/bg-today-small-light.svg')]"
+
+    /* Returned Element */
     return (
-        <section className='bg-[url("/assets/images/bg-today-small.svg")] bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-95'>
+        <section className={`${bgSmall} bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-95`}>
             {
                 isApiLoading ?
                     <img src='/assets/images/loading.gif' className='w-1/2 max-w-40 my-auto' /> :
                     <>
                         <BookmarkButton />
                         <span className='font-bold text-4xl'>{location.name}</span>
-                        <span className='font-semibold text-xl text-(--gray-used)'>{dateStr}</span>
+                        <span className='font-semibold text-xl text-[#808080]'>{dateStr}</span>
                         <div className='flex items-center justify-between mt-4 mb-8 w-3/4 max-w-105'>
                             <img src={weatherCodeImgFile} className='w-1/3' />
                             <span className='grow text-9xl text-center font-semibold'>
-                                <span className='italic mr-4'>{temperature}</span>
+                                <span className='italic mr-4 '>{temperature}</span>
                                 <span>°</span>
                             </span>
                         </div>

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 /* Custom font */
 @font-face {
@@ -13,18 +14,35 @@
 
 /* Color and text*/
 :root{
-    --bg-layer-1: #25253e;
-    --bg-layer-2: #3c3a5c; /* Hovering */
-    --bg-layer-3: #2f2f48; /* Hourly forecast child */
-    --bg-layer-4: #3c3b5c; /* Hourly Menu */
-    --btn-color: #4058d2;
-    --gray-used: #9b9aac;
-    --menu-border: #3a3a56;
+    --text-main: black;
+    --bg-main: #f2f2f2;
+    --bg-layer-1: #cccccc;
+    --bg-layer-2: #bfbfbf; /* Hovering */
+    --bg-layer-3: #bfbfbf; /* Hourly forecast child */
+    --bg-layer-4: hsl(180, 1%, 72%); /* Hourly Menu */
+    --btn-color: #a0d9f1;
+
+    --gray-used: hsl(0, 0%, 35%);
+    --menu-border: #999999;
 
     --primary-text: DM-Sans, Arial;
     --landing-text: Brico, Arial;
 
     --main-min-height: calc(100vh - 64.8px - 16px)
+}
+
+a {
+    color: #808080;
+}
+
+.dark{
+    --text-main: white;
+    --bg-main: var(--color-slate-900);
+    --bg-layer-1: #25253e;
+    --bg-layer-2: #3c3a5c; /* Hovering */
+    --bg-layer-3: #2f2f48; /* Hourly forecast child */
+    --bg-layer-4: #3c3b5c; /* Hourly Menu */
+    --btn-color: #4058d2;
 }
 
 /* General */

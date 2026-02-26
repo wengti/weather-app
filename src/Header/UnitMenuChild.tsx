@@ -2,6 +2,7 @@ import type { JSX } from "react"
 import { useUnitsContext } from "../App"
 import clsx from "clsx"
 import { saveUnits } from "../utils/localStorage"
+import { IoMdCheckmark } from "react-icons/io"
 
 /* Type */
 type TitleType = 'Temperature' | 'Wind Speed' | 'Precipitation' | 'Time'
@@ -33,7 +34,7 @@ export default function UnitMenuChild({title, measure, content}:PropsType):JSX.E
         const isSelected = units[measure] === idx
 
         const btnClass = clsx({
-            'flex justify-between py-1 px-2 rounded-md cursor-pointer hover:bg-(--bg-layer-2)': true,
+            'flex justify-between items-center py-1 px-2 rounded-md cursor-pointer hover:bg-(--bg-layer-2)': true,
             'bg-(--bg-layer-2)': isSelected
         })
 
@@ -44,7 +45,7 @@ export default function UnitMenuChild({title, measure, content}:PropsType):JSX.E
                 onClick={()=>{handleChangeUnit(measure, idx)}}
             >
                 <span>{elem}</span>
-                {isSelected && <img src='/assets/images/icon-checkmark.svg'/>}
+                {isSelected && <IoMdCheckmark className='text-(--text-main)'/>}
             </button>
         )
     })
