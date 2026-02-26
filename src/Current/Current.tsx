@@ -18,7 +18,7 @@ export default function Current() {
     const precipitationContent = `${Math.round(current.precipitation)} ${getPrecipitationUnit(units['precipitation'])}`
 
     return (
-        <section className='grid grid-cols-2 my-8 gap-5'>
+        <section className='grid grid-cols-2 mt-4 mb-8 gap-5'>
             <CurrentMain />
             <CurrentChild title='Feels Like' content={feelsLikeContent} />
             <CurrentChild title='Humidity' content={humidityContent} />

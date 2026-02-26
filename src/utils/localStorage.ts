@@ -5,10 +5,10 @@ import type { UnitsContextType } from "../Type/UnitsContextType"
 /* General */
 const locationKey = 'location'
 const unitsKey = 'units'
-const bookmarkKey = 'bookmark'
+const bookmarksKey = 'bookmarks'
 
-type KeyType = 'location' | 'units' | 'bookmark'
-type ValType = LocationContextType | UnitsContextType | number[]
+type KeyType = 'location' | 'units' | 'bookmarks'
+type ValType = LocationContextType | UnitsContextType | LocationContextType[]
 
 function saveToLocalStorage(key:KeyType, value: ValType): void {
     localStorage.setItem(key, JSON.stringify(value))
@@ -25,7 +25,6 @@ function deleteFromLocalStorage(key:KeyType):void{
 }
 
 /* Location */
-
 export function saveLocation(locationState:LocationContextType):void{
     saveToLocalStorage(locationKey, locationState)
 }
@@ -45,6 +44,15 @@ export function saveUnits(unitsState:UnitsContextType):void{
 
 export function readSavedUnits():any{
     return readFromLocalStorage(unitsKey, defaultUnitsContext) //if the key cannot be found, set to default units
+}
+
+/* bookmarks */
+export function saveBookmarks(bookmarksState:LocationContextType[]):void{
+    saveToLocalStorage(bookmarksKey, bookmarksState)
+}
+
+export function readSavedBookmarks():any{
+    return readFromLocalStorage(bookmarksKey, [])
 }
 
 

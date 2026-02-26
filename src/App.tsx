@@ -11,7 +11,8 @@ import { fetchInitialWeatherData } from "./utils/fetchWeatherData"
 import Current from "./Current/Current"
 import Daily from "./Daily/Daily"
 import Hourly from "./Hourly/Hourly"
-import { readSavedLocation, readSavedUnits } from "./utils/localStorage"
+import { readSavedBookmarks, readSavedLocation, readSavedUnits } from "./utils/localStorage"
+import Bookmark from "./Bookmark/Bookmark"
 
 
 /* ---------- */
@@ -51,11 +52,22 @@ export function useLocationContext(): [LocationContextType, LocationContextState
     return useContext(LocationContext)
 }
 
+/* ------------------- */
 /* API Loading Context */
+/* ------------------- */
 const IsApiLoadingContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>(undefined!)
 export function useIsApiLoadingContext() {
     return useContext(IsApiLoadingContext)
 }
+
+/* ----------------- */
+/* Bookmarks Context */
+/* ----------------- */
+const BookmarksContext = createContext<[LocationContextType[], React.Dispatch<React.SetStateAction<LocationContextType[]>>]>(undefined!)
+export function useBookmarksContext() {
+    return useContext(BookmarksContext)
+}
+
 
 /* --------------- */
 /* React Component */
@@ -67,10 +79,11 @@ export default function App() {
     const [apiError, setApiError] = useState<ErrorType>(null)
 
     /* Context - State */
-    const [location, setLocation] = useState<LocationContextType>(()=>{return readSavedLocation()})
-    const [units, setUnits] = useState<UnitsContextType>(()=>{return readSavedUnits()})
+    const [location, setLocation] = useState<LocationContextType>(() => { return readSavedLocation() })
+    const [units, setUnits] = useState<UnitsContextType>(() => { return readSavedUnits() })
     const [weatherData, setWeatherData] = useState<WeatherDataContextType>(undefined!)
     const [isApiLoading, setIsApiLoading] = useState<boolean>(false)
+    const [bookmarks, setBookmarks] = useState<LocationContextType[]>(()=> {return readSavedBookmarks()})
 
     /* Functions */
 
@@ -91,28 +104,32 @@ export default function App() {
             <UnitsContext value={[units, setUnits]}>
                 <WeatherDataContext value={[weatherData, setWeatherData]}>
                     <IsApiLoadingContext value={[isApiLoading, setIsApiLoading]}>
-                        <Header />
-                        <main className='min-h-(--main-min-height) flex flex-col'>
-                            {
-                                apiError ?
-                                    <ApiError /> :
-                                    <>
-                                        <Landing />
-                                        <SearchForm />
-                                        {locationError && <FormError error={locationError} />}
-                                        {
-                                            isInitialLoading || isDataNull ?
-                                                <></> :
-                                                <>
-                                                    <Current />
-                                                    <Daily />
-                                                    <Hourly />
-                                                </>
-                                        }
-                                    </>
-                            }
+                        <BookmarksContext value={[bookmarks, setBookmarks]}>
 
-                        </main>
+                            <Header />
+                            <main className='min-h-(--main-min-height) flex flex-col'>
+                                {
+                                    apiError ?
+                                        <ApiError /> :
+                                        <>
+                                            <Landing />
+                                            <SearchForm />
+                                            <Bookmark />
+                                            {locationError && <FormError error={locationError} />}
+                                            {
+                                                isInitialLoading || isDataNull ?
+                                                    <></> :
+                                                    <>
+                                                        <Current />
+                                                        <Daily />
+                                                        <Hourly />
+                                                    </>
+                                            }
+                                        </>
+                                }
+                            </main>
+
+                        </BookmarksContext>
                     </IsApiLoadingContext>
                 </WeatherDataContext>
             </UnitsContext>
