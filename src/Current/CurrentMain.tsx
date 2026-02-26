@@ -11,7 +11,7 @@ export default function CurrentMain() {
     const [weatherData, _setWeatherData] = useWeatherDataContext()
     const [isApiLoading, _setIsApiLoading] = useIsApiLoadingContext()
     const [units, _setUnits] = useUnitsContext()
-    console.log(weatherData)
+    
     /* current object */
     const { current } = weatherData
 
@@ -34,7 +34,7 @@ export default function CurrentMain() {
         <section className='bg-[url("/assets/images/bg-today-small.svg")] bg-no-repeat bg-cover bg-center rounded-2xl col-span-2 flex flex-col gap-4 items-center py-8 h-95'>
             {
                 isApiLoading ?
-                    <img src='/assets/images/loading.gif' className='w-1/2 my-auto' /> :
+                    <img src='/assets/images/loading.gif' className='w-1/2 max-w-40 my-auto' /> :
                     <>
                         <BookmarkButton />
                         <span className='font-bold text-4xl'>{location.name}</span>

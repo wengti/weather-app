@@ -33,9 +33,11 @@ export default function BookmarkButton(){
     return(
         <button className='h-6 cursor-pointer'>
             {
-                bookmarkedObj ?
-                <FaBookmark className='text-2xl text-red-500' onClick={()=>{handleUnbookmark()}}/> :
-                <FaRegBookmark className='text-2xl' onClick={()=>{handleBookmark()}}/>
+                location.id === null ?
+                    <></> :
+                    bookmarkedObj ?
+                        <FaBookmark className='text-2xl text-red-500' onClick={()=>{handleUnbookmark()}}/> :
+                        <FaRegBookmark className='text-2xl' onClick={()=>{handleBookmark()}}/>
             }
         </button>
     )

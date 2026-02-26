@@ -77,7 +77,7 @@ async function fetchWeatherData(
 /* -------------------------------------------------- */
 /* Wrapper to make getting position an async function */
 /* -------------------------------------------------- */
-function getCurrentPosition(): Promise<GeolocationPosition> {
+export function getCurrentPosition(): Promise<GeolocationPosition> {
     return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(resolve, reject)
     })
